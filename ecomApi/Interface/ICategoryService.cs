@@ -5,6 +5,10 @@ namespace ecomApi.Interface
 {
     public interface ICategoryService
     {
-        List<CategoryDto> GetCategoories();
+        List<CategoryDto> GetCategoories(); /// get
+        CategoryDto CreateCategory(CategoryDto dto);    // post  
+
+        CategoryDto UpdateCategory(int id, CategoryDto dto); // update
+        void DeleteCategory(int id); // delete
     }
 }

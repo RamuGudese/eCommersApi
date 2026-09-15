@@ -29,7 +29,24 @@ namespace ecomApi.Services
             return categoryData;
         }
 
-        
+       public CategoryDto CreateCategory(CategoryDto dto)
+        {
+            var newCategory = new CategoryModel
+            {
+                CategoryName = dto.CategoryName,
+                CategoryLogo = dto.CategoryLogo
+            };
+            _dbContext.CategoryModels.Add(newCategory);
+            _dbContext.SaveChanges();
+
+            return new CategoryDto
+            {
+                CategoryId = newCategory.CategoryId,
+                CategoryName = newCategory.CategoryName,
+                CategoryLogo = newCategory.CategoryLogo
+            };
+        }
+
 
 
 

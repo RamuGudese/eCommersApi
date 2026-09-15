@@ -28,19 +28,17 @@ namespace ecomApi.Controllers
             return Ok(categoryData);
         }
 
-        //public ActionResult<List<CategooryModel>> GetAllCategoryService()
-        //{
-        //    var categoryData = _categoryService.GetAllCategories().ToList();
-
-        //    return Ok(categoryData); }
 
         [HttpPost]
-        [Route("CreateCetagory")] 
-        public CategoryDto AddNew(CategoryDto, obj)
+        [Route("CreateCategory")]
+        public IActionResult CreateCategory(CategoryDto dto)
         {
-            _categoryService.CategoryModel.AddNew(CategoryDto, obj);
-            _categoryService.saveChanges();
-            return (obj);
+            var categoryData = _categoryService.CreateCategory(dto);
+
+            return StatusCode(201, categoryData);
+
         }
+
+
     }
 }
