@@ -29,7 +29,7 @@ namespace ecomApi.Services
             return categoryData;
         }
 
-       public CategoryDto CreateCategory(CategoryDto dto)
+        public CategoryDto CreateCategory(CategoryDto dto)
         {
             var newCategory = new CategoryModel
             {
@@ -44,6 +44,27 @@ namespace ecomApi.Services
                 CategoryId = newCategory.CategoryId,
                 CategoryName = newCategory.CategoryName,
                 CategoryLogo = newCategory.CategoryLogo
+            };
+        }
+
+
+        public CategoryDto UpdateCategory(int id, CategoryDto dto)
+        {
+            var updatecategory = _dbContext.CategoryModels.SingleOrDefault(m => m.CategoryId == id);
+            if (updatecategory == null)
+            {
+                throw new KeyNotFoundException($"Category with id {id} not found.");
+            }
+
+            updatecategory.CategoryName = dto.CategoryName;
+            updatecategory.CategoryLogo = dto.CategoryLogo;
+            _dbContext.SaveChanges();
+
+            return new CategoryDto
+            {
+                CategoryId = updatecategory.CategoryId,
+                CategoryName = updatecategory.CategoryName,
+                CategoryLogo = updatecategory.CategoryLogo
             };
         }
 

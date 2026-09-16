@@ -4,6 +4,7 @@ using ecomApi.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ecomApi.Controllers
 {
@@ -37,6 +38,23 @@ namespace ecomApi.Controllers
 
             return StatusCode(201, categoryData);
 
+        }
+        [HttpPut]
+        [Route("UpdateCategory")]
+
+        public IActionResult UpdateCategory(int id, CategoryDto dto)
+        {
+            var updateData = _categoryService.UpdateCategory(id, dto);
+            return StatusCode(200, updateData);
+
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategoryById")]
+        public IActionResult DropCategory(int id)
+        {
+            _categoryService.DeleteCategory(id); // void method called directly
+            return NoContent(); // or return Ok(new { success = true, message = "Deleted" });
         }
 
 
