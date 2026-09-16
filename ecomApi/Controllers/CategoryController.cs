@@ -13,7 +13,7 @@ namespace ecomApi.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        //private ICategoryService _categoryService;
+        
 
         public CategoryController(ICategoryService categoryService)
         {
