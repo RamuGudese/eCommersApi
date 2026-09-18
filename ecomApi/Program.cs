@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddDbContext<EcomDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("EcomDbConnection")));    
 

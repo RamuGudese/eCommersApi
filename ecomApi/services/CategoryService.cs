@@ -68,6 +68,16 @@ namespace ecomApi.Services
             };
         }
 
+        public bool DeleteCategory(int id)
+        {
+            var singlerec = _dbContext.CategoryModels.Find(id);
+            _dbContext.CategoryModels.Remove(singlerec);
+            _dbContext.SaveChanges();
+            return true;
+
+
+        }
+
 
 
 

@@ -9,6 +9,6 @@ namespace ecomApi.Interface
         CategoryDto CreateCategory(CategoryDto dto);    // post  
 
         CategoryDto UpdateCategory(int id, CategoryDto dto); // update
-        void DeleteCategory(int id); // delete
+        bool  DeleteCategory(int id); // delete
     }
 }
