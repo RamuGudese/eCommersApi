@@ -17,7 +17,7 @@ namespace ecomApi.services
 
         }
 
-        public List<ProductDtos> GetProducts()
+        public List<ProductDtos> GetProducts() 
         {
             var products = _dbContext.productModels.
 
@@ -82,4 +82,4 @@ namespace ecomApi.services
     }
 }
 
-}
+   }
