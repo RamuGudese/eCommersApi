@@ -24,8 +24,8 @@ namespace ecomApi.services
             Select(p => new ProductDtos
             {
                 ProductName = p.productName,
-                ShortName = p.shotName,
-                Price = (decimal)p.price,
+                ShortName = p.ShortName,
+                Price = p.price.HasValue ? (decimal)p.price.Value : null,
                 Description = p.description
             }).ToList();
 
@@ -38,8 +38,8 @@ namespace ecomApi.services
             var newProduct = new productModel
             {
                 productName = dto.ProductName,
-                shotName = dto.ShortName,
-                price = (float)dto.Price,
+                ShortName = dto.ShortName,
+                price = dto.Price.HasValue ? (float?)dto.Price.Value : null,
                 description = dto.Description
             };
             _dbContext.productModels.Add(newProduct);
@@ -56,8 +56,8 @@ namespace ecomApi.services
             }
 
             updateProduct.productName = dto.ProductName;
-            updateProduct.shotName = dto.ShortName;
-            updateProduct.price = (float)dto.Price;
+            updateProduct.ShortName = dto.ShortName;
+            updateProduct.price = dto.Price.HasValue ? (float?)dto.Price.Value : null;
             updateProduct.description = dto.Description;
             _dbContext.SaveChanges();
             return dto;
@@ -82,4 +82,5 @@ namespace ecomApi.services
     }
 }
 
-   }
+
+    

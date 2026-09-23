@@ -1,5 +1,6 @@
 using ecomApi.Controllers.Models;
 using ecomApi.Interface;
+using ecomApi.services;
 using ecomApi.Services;
 using Microsoft.EntityFrameworkCore;
 

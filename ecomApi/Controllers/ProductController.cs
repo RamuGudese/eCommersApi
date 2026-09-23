@@ -19,8 +19,8 @@ namespace ecomApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetProducts")]
-        public ActionResult<List<ProductDtos>> GetallProducts()
+        [Route("GetAllProducts")]
+        public ActionResult<List<ProductDtos>> GetAllProducts()
         {
             var proudctsData = _ProductService.GetProducts().ToList();
             return Ok(proudctsData);

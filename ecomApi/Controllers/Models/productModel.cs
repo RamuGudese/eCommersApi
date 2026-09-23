@@ -13,12 +13,12 @@ namespace ecomApi.Controllers.Models
         public int productId { get; set; }
         public int catId { get; set; }
         [MaxLength(50)]
-        public string productName { get; set; } = string.Empty;
+        public string? productName { get; set; }
         [MaxLength(10)]
-        public string shotName { get; set; } = string.Empty;
-        public float price { get; set; }
+        public string? ShortName { get; set; }
+        public float? price { get; set; }
         [MaxLength(1000)]
-        public string description { get; set; } = string.Empty;
+        public string? description { get; set; }
         public Nullable<DateTime> CreateDate { get; set; } = DateTime.Now;
         public Nullable<DateTime> modifiedDate { get; set; } = DateTime.Now;
 
