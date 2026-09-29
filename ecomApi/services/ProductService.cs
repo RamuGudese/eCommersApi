@@ -23,9 +23,11 @@ namespace ecomApi.services
 
             Select(p => new ProductDtos
             {
+                ProductId = p.productId,
+                CategoryId = p.catId,
                 ProductName = p.productName,
                 ShortName = p.ShortName,
-                Price = p.price.HasValue ? (decimal)p.price.Value : null,
+                Price = p.price,
                 Description = p.description
             }).ToList();
 
@@ -35,15 +37,22 @@ namespace ecomApi.services
 
         public ProductDtos CreateProduct(ProductDtos dto)
         {
+            if (dto.CategoryId < 1 || !_dbContext.CategoryModels.Any(c => c.CategoryId == dto.CategoryId))
+            {
+                throw new ArgumentException($"Category with id {dto.CategoryId} was not found.");
+            }
+
             var newProduct = new productModel
             {
+                catId = dto.CategoryId,
                 productName = dto.ProductName,
                 ShortName = dto.ShortName,
-                price = dto.Price.HasValue ? (float?)dto.Price.Value : null,
+                price = dto.Price,
                 description = dto.Description
             };
             _dbContext.productModels.Add(newProduct);
             _dbContext.SaveChanges();
+            dto.ProductId = newProduct.productId;
             return dto;
         }
 
@@ -55,11 +64,18 @@ namespace ecomApi.services
                 throw new ArgumentException("Product not found");
             }
 
+            if (dto.CategoryId < 1 || !_dbContext.CategoryModels.Any(c => c.CategoryId == dto.CategoryId))
+            {
+                throw new ArgumentException($"Category with id {dto.CategoryId} was not found.");
+            }
+
+            updateProduct.catId = dto.CategoryId;
             updateProduct.productName = dto.ProductName;
             updateProduct.ShortName = dto.ShortName;
-            updateProduct.price = dto.Price.HasValue ? (float?)dto.Price.Value : null;
+            updateProduct.price = dto.Price;
             updateProduct.description = dto.Description;
             _dbContext.SaveChanges();
+            dto.ProductId = updateProduct.productId;
             return dto;
         }
 

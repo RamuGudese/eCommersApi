@@ -16,7 +16,7 @@ namespace ecomApi.Controllers.Models
         public string? productName { get; set; }
         [MaxLength(10)]
         public string? ShortName { get; set; }
-        public float? price { get; set; }
+        public decimal? price { get; set; }
         [MaxLength(1000)]
         public string? description { get; set; }
         public Nullable<DateTime> CreateDate { get; set; } = DateTime.Now;

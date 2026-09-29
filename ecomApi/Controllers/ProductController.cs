@@ -31,33 +31,80 @@ namespace ecomApi.Controllers
 
         public IActionResult CreateProduct(ProductDtos dto)
         {
-            var NewProducts = _ProductService.CreateProduct(dto);
-
-            return StatusCode(201, NewProducts);
-
-        }
-
-        [HttpPut]
-        [Route("UpdateProduct")]
-
-        public IActionResult UpdateProduct(int id, ProductDtos dto)
-        {
-            var updateData = _ProductService.UpdateProducts(id, dto);
-
-            return StatusCode(204, updateData);
-
+            try
+            {
+                var NewProducts = _ProductService.CreateProduct(dto);
+                return StatusCode(201, NewProducts);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
 
         }
 
-        [HttpDelete]
-        [Route("DeleteProduct")]
-
-        public IActionResult dropProudct(int id, ProductDtos dto)
+        [HttpPut("UpdateProduct/{id:int:min(1)}")]
+        [HttpPut("UpdateProduct")]
+        public IActionResult UpdateProduct(
+            [FromRoute(Name = "id")] int? routeId,
+            [FromQuery(Name = "id")] int? queryId,
+            [FromQuery(Name = "productId")] int? productId,
+            [FromBody] ProductDtos dto)
         {
-            var deleteProduct = _ProductService.DeleteProduct(id);
+            var id = routeId ?? queryId ?? productId;
 
-            return StatusCode(204, deleteProduct);
+            if (!id.HasValue)
+            {
+                return BadRequest("Product ID is required.");
+            }
+
+            if (id.Value < 1)
+            {
+                return BadRequest("Product ID must be greater than zero.");
+            }
+
+            try
+            {
+                _ProductService.UpdateProducts(id.Value, dto);
+            }
+            catch (ArgumentException ex) when (ex.Message == "Product not found")
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return NoContent();
+
+
+
+        }
+
+        [HttpDelete("DeleteProduct/{id:int:min(1)}")]
+        [HttpDelete("DeleteProduct")]
+        public IActionResult DeleteProduct(
+            [FromRoute(Name = "id")] int? routeId,
+            [FromQuery(Name = "id")] int? queryId,
+            [FromQuery(Name = "productId")] int? productId)
+        {
+            var id = routeId ?? queryId ?? productId;
+
+            if (!id.HasValue || id < 1)
+            {
+                return BadRequest("Product ID must be greater than zero.");
+            }
+
+            var deleted = _ProductService.DeleteProduct(id.Value);
+
+            if (!deleted)
+            {
+                return NotFound("Product not found");
+            }  
+
+            return NoContent();
 
         }
 

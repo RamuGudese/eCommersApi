@@ -39,15 +39,27 @@ namespace ecomApi.Controllers
             return StatusCode(201, categoryData);
 
         }
-        [HttpPut]
-        [Route("UpdateCategory")]
 
+        [HttpPut("UpdateCategory/{id:int}")]
         public IActionResult UpdateCategory(int id, CategoryDto dto)
         {
-            var updateData = _categoryService.UpdateCategory(id, dto);
-            return StatusCode(200, updateData);
-
+            try
+            {
+                var updateData = _categoryService.UpdateCategory(id, dto);
+                return Ok(updateData);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
+        //[HttpPut]
+        //[HttpPut("UpdateCategory/{id:int}")]
+        //public IActionResult UpdateCategory(int id, CategoryDto dto)
+        //{
+        //    var updateData = _categoryService.UpdateCategory(id, dto);
+        //    return Ok(updateData);
+        //}
 
         [HttpDelete]
         [Route("DeleteCategoryById")]

@@ -3,6 +3,7 @@ using System.Linq;
 using ecomApi.Controllers.DTOs;
 using ecomApi.Controllers.Models;
 using ecomApi.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace ecomApi.Services
 {
@@ -70,9 +71,21 @@ namespace ecomApi.Services
 
         public bool DeleteCategory(int id)
         {
-            var singlerec = _dbContext.CategoryModels.Find(id);
-            _dbContext.CategoryModels.Remove(singlerec);
+            var category = _dbContext.CategoryModels.Find(id);
+            if (category == null)
+            {
+                return false;
+            }
+
+            using var transaction = _dbContext.Database.BeginTransaction();
+
+            _dbContext.productModels
+                .Where(product => product.catId == id)
+                .ExecuteDelete();
+
+            _dbContext.CategoryModels.Remove(category);
             _dbContext.SaveChanges();
+            transaction.Commit();
             return true;
 
 
